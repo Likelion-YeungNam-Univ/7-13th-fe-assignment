@@ -5,9 +5,11 @@ const TodoList = () => {
   const [todos, setTodos] = useState([]);
   const [inputText, setInputText] = useState("");
   const [error, setError] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
+    // console.log(inputText);
 
     if (e.target.value.trim().length < 3) {
       setError(true);
@@ -28,6 +30,11 @@ const TodoList = () => {
     setTodos((prev) => [...prev, { id: Date.now(), text: inputText }]);
     setInputText("");
     setError(false);
+    setIsModalOpen(true);
+  };
+
+  const handleDelete = (id) => {
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
   };
 
   return (
@@ -56,9 +63,22 @@ const TodoList = () => {
       </form>
       <ul>
         {todos.map((todo) => (
-          <TodoItem key={todo.id} todo={todo} />
+          <TodoItem key={todo.id} todo={todo} onDelete={handleDelete} />
         ))}
       </ul>
+      {isModalOpen && (
+        <div
+          className="fixed top-0 left-0 w-full h-full bg-black/60 flex items-center justify-center"
+          onClick={() => setIsModalOpen(false)}
+        >
+          <div
+            className="bg-white px-20 py-15 rounded-xl text-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p className="text-3xl font-bold">할 일이 추가되었습니다.</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

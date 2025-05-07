@@ -1,9 +1,15 @@
 import React from "react";
 
-const TodoItem = ({ todo }) => {
+const TodoItem = ({ todo, onDelete }) => {
   return (
-    <li className="w-100 text-2xl text-center px-3 py-5 border-b-2">
+    <li className=" flex w-100 text-2xl text-center px-3 py-5 border-b-2">
       <span>{todo.text}</span>
+      <button
+        onClick={() => onDelete(todo.id)}
+        className="ml-auto rounded-xl bg-white border-2 border-black"
+      >
+        삭제
+      </button>
     </li>
   );
 };
