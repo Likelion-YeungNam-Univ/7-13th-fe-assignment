@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import TodoItem from "./TodoItem";
+import Modal from "./Modal"
+
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
   const [inputText, setInputText] = useState("");
   const [error, setError] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false)
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
@@ -28,8 +31,17 @@ const TodoList = () => {
     setTodos((prev) => [...prev, { id: Date.now(), text: inputText }]);
     setInputText("");
     setError(false);
+    setModalOpen(true)
   };
 
+    const handleDelete = (id) => {
+    setTodos((prev) => prev.filter((todo) => todo.id !== id))
+   }
+
+
+   const closeModal = () => setModalOpen(false);
+
+ 
   return (
     <div className="bg-gray-200 h-screen flex flex-col items-center">
       <h2 className="text-5xl font-bold my-10">To-Do List</h2>
@@ -56,9 +68,14 @@ const TodoList = () => {
       </form>
       <ul>
         {todos.map((todo) => (
-          <TodoItem key={todo.id} todo={todo} />
+          <TodoItem key={todo.id}
+           todo={todo} 
+           onDelete = {() => handleDelete(todo.id)}
+           />
+
         ))}
       </ul>
+      {isModalOpen && <Modal message="할 일이 추가되었습니다" onClose={closeModal}/>}
     </div>
   );
 };
