@@ -40,7 +40,7 @@ const TodoList = () => {
   // todo를 삭제하는 handleDelete 함수
   const handleDelete = (index) => {
     const temp = todos.filter((_, i) => i !== index); // filter()를 통해 배열의 각 요소를 검사하여 index가 조건과 다른 요소만으로 새로운 배열 반환, 그걸 temp에 넣고,
-    setTodos(temp); // temp를 todos로 설정
+    setTodos(temp); // todos를 temp로 설정
   };
 
   return (
