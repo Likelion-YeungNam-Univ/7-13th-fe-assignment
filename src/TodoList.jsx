@@ -5,7 +5,7 @@ const TodoList = () => {
   const [todos, setTodos] = useState([]);
   const [inputText, setInputText] = useState("");
   const [error, setError] = useState(false);
-  const [ismodalOpen, setIsModalOpen] = useState(false);
+  const [ismodalOpen, setIsModalOpen] = useState(false); //모달창
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
@@ -30,11 +30,18 @@ const TodoList = () => {
     setInputText("");
     setError(false);
 
+    //모달창 열기
     setIsModalOpen(true);
   };
 
+  //모달창 닫기
   const modalClose = () => {
     setIsModalOpen(false);
+  };
+
+  //삭제 기능
+  const handleDelete = (id) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   return (
@@ -65,17 +72,19 @@ const TodoList = () => {
 
       <ul>
         {todos.map((todo) => (
-          <TodoItem key={todo.id} todo={todo} />
+          <TodoItem key={todo.id} todo={todo} handleDelete={handleDelete} />
         ))}
       </ul>
+
+      {/* 모달창 */}
       {ismodalOpen && (
         <div
           className="fixed inset-0 bg-gray-200 flex justify-center items-center"
-          onClick={modalClose}
+          onClick={modalClose} //모달창 외의 빈 곳 클릭시 닫힘
         >
           <div
             className="bg-white p-6 text-center rounded-xl"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()} //모달창 내부 클릭시에는 안 닫히게
           >
             <h3 className="text-xl">할 일이 추가되었습니다.</h3>
           </div>
