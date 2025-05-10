@@ -44,7 +44,7 @@ const TodoList = () => {
   };
 
   return (
-    <div className="bg-gray-200 h-screen flex flex-col items-center relative">
+    <div className="bg-gray-200 h-screen flex flex-col items-center">
       <h2 className="text-5xl font-bold my-10">To-Do List</h2>
       <form onSubmit={handleAdd} className="flex gap-2 mb-5 relative">
         <input
