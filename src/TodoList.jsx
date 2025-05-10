@@ -5,6 +5,7 @@ const TodoList = () => {
   const [todos, setTodos] = useState([]);
   const [inputText, setInputText] = useState("");
   const [error, setError] = useState(false); // 에러 메시지 표시 여부로, 초기 값은 false
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달창 표시 여부로, 초기 값은 false
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
@@ -30,6 +31,7 @@ const TodoList = () => {
     setTodos((prev) => [...prev, { id: Date.now(), text: inputText }]);
     setInputText(""); // 입력창 초기화
     setError(false); // 에러 해제
+    setIsModalOpen(true); // 할 일이 추가되면서 모달 창이 출력
   };
 
   // 할 일 객체를 삭제하는 함수
@@ -57,6 +59,7 @@ const TodoList = () => {
             3글자 이상 입력해주세요.
           </p>
         )}
+
         <button
           type="submit"
           className="px-4 py-2 bg-blue-100 border rounded-2xl hover:bg-blue-400 cursor-pointer"
@@ -71,6 +74,22 @@ const TodoList = () => {
           <TodoItem key={todo.id} todo={todo} handleDelete={handleDelete} />
         ))}
       </ul>
+
+      {isModalOpen && (
+        <div
+          className="fixed top-0 bottom-0 right-0 left-0 bg-transparent flex justify-center items-center"
+          onClick={() => setIsModalOpen(false)}
+          // 어디를 클릭하든지 모달 창을 닫도록 설정
+        >
+          <div
+            className="bg-white text-3xl p-40 rounded-3xl shadow"
+            onClick={(e) => e.stopPropagation()}
+            // stopPropagation 메소드를 통해 모달 창을 클릭해도 창이 꺼지지 않도록 만들어 줌
+          >
+            할 일이 추가되었습니다.
+          </div>
+        </div>
+      )}
     </div>
   );
 };
