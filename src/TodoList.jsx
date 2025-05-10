@@ -71,8 +71,11 @@ const TodoList = () => {
           className="fixed inset-0 bg-black/75 flex items-center justify-center"
           onClick={closeModal}
         >
-          <div className="bg-white p-5 rounded-lg min-w-[300px] text-center">
-            <p className="text-2xl font-bold">할 일이 추가되었습니다.</p>
+          <div
+            className="bg-white p-15 rounded-lg text-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p className="text-2xl font-bold">할 일이 추가되었습니다!</p>
           </div>
         </div>
       )}
