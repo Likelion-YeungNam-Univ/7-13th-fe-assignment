@@ -5,6 +5,7 @@ const TodoList = () => {
   const [todos, setTodos] = useState([]);
   const [inputText, setInputText] = useState("");
   const [error, setError] = useState(false);
+  const [ismodalOpen, setIsModalOpen] = useState(false);
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
@@ -28,6 +29,12 @@ const TodoList = () => {
     setTodos((prev) => [...prev, { id: Date.now(), text: inputText }]);
     setInputText("");
     setError(false);
+
+    setIsModalOpen(true);
+  };
+
+  const modalClose = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -47,6 +54,7 @@ const TodoList = () => {
             3글자 이상 입력해주세요.
           </p>
         )}
+
         <button
           type="submit"
           className="px-4 py-2 bg-blue-100 border rounded-2xl hover:bg-blue-400 cursor-pointer"
@@ -54,11 +62,25 @@ const TodoList = () => {
           추가
         </button>
       </form>
+
       <ul>
         {todos.map((todo) => (
           <TodoItem key={todo.id} todo={todo} />
         ))}
       </ul>
+      {ismodalOpen && (
+        <div
+          className="fixed inset-0 bg-gray-200 flex justify-center items-center"
+          onClick={modalClose}
+        >
+          <div
+            className="bg-white p-6 text-center rounded-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-xl">할 일이 추가되었습니다.</h3>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
