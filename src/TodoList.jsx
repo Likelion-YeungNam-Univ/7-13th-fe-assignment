@@ -5,6 +5,7 @@ const TodoList = () => {
   const [todos, setTodos] = useState([]);
   const [inputText, setInputText] = useState("");
   const [error, setError] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
