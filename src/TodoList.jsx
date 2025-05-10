@@ -5,6 +5,7 @@ const TodoList = () => {
   const [todos, setTodos] = useState([]);
   const [inputText, setInputText] = useState("");
   const [error, setError] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
@@ -28,6 +29,12 @@ const TodoList = () => {
     setTodos((prev) => [...prev, { id: Date.now(), text: inputText }]);
     setInputText("");
     setError(false);
+    setIsModalOpen(true);
+  };
+
+  const handleDelete = (id) => {
+    // 삭제
+    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   return (
@@ -50,13 +57,34 @@ const TodoList = () => {
         <button
           type="submit"
           className="px-4 py-2 bg-blue-100 border rounded-2xl hover:bg-blue-400 cursor-pointer"
+          onClick={() => setIsModalOpen(true)}
         >
           추가
         </button>
       </form>
+
+      {/* 조건부 렌더링 */}
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 bg-black/70 flex items-center justify-center"
+          onClick={() => setIsModalOpen(false)}
+        >
+          <div
+            className="bg-white p-20 rounded-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="text-3xl font-bold">할 일이 추가되었습니다.</div>
+          </div>
+        </div>
+      )}
+
       <ul>
         {todos.map((todo) => (
-          <TodoItem key={todo.id} todo={todo} />
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            onDelete={() => handleDelete(todo.id)}
+          />
         ))}
       </ul>
     </div>
