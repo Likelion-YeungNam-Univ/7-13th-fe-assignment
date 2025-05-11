@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TodoItem from "./TodoItem";
+
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
   const [inputText, setInputText] = useState("");
@@ -30,6 +31,10 @@ const TodoList = () => {
     setError(false);
     setIsModalOpen(true);
   };
+
+  const handleDelete = (id) => {
+  setTodos((prev) => prev.filter((todo) => todo.id !== id));
+};
 
   useEffect(() => {
     const handleClick = (e) => {
@@ -72,7 +77,7 @@ const TodoList = () => {
       </form>
       <ul>
         {todos.map((todo) => (
-          <TodoItem key={todo.id} todo={todo} />
+          <TodoItem key={todo.id} todo={todo} onDelete={handleDelete} />
         ))}
       </ul>
 
