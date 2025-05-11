@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import TodoItem from "./TodoItem";
 
 const TodoList = () => {
@@ -36,21 +36,6 @@ const TodoList = () => {
   setTodos((prev) => prev.filter((todo) => todo.id !== id));
 };
 
-  useEffect(() => {
-    const handleClick = (e) => {
-      if (!e.target.closest(".modal")) {
-        setIsModalOpen(false);
-      }
-    };
-
-    if(isModalOpen) {
-      document.addEventListener("click", handleClick);
-    }
-    return () => {
-      document.removeEventListener("click", handleClick);
-    };
-  }, [isModalOpen]);
-
   return (
     <div className="bg-yellow-50 h-screen flex flex-col items-center">
       <h2 className="text-5xl font-bold my-10">To-Do List</h2>
@@ -82,7 +67,14 @@ const TodoList = () => {
       </ul>
 
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
+        <div 
+          className="modal-outside fixed inset-0 bg-black/60 flex items-center justify-center"
+          onClick={(e) => {
+            if (e.target.classList.contains("modal-outside")) {
+              setIsModalOpen(false);
+            }
+          }}
+        >
           <div
             className="modal bg-white p-6 rounded text-lg font-semibold text-center"
           >
