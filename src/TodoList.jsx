@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import TodoItem from "./TodoItem";
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
   const [inputText, setInputText] = useState("");
   const [error, setError] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
@@ -28,10 +29,15 @@ const TodoList = () => {
     setTodos((prev) => [...prev, { id: Date.now(), text: inputText }]);
     setInputText("");
     setError(false);
+    setIsModalOpen(true);
   };
 
+  const handleDelete = (id) => {
+  setTodos((prev) => prev.filter((todo) => todo.id !== id));
+};
+
   return (
-    <div className="bg-gray-200 h-screen flex flex-col items-center">
+    <div className="bg-yellow-50 h-screen flex flex-col items-center">
       <h2 className="text-5xl font-bold my-10">To-Do List</h2>
       <form onSubmit={handleAdd} className="flex gap-2 mb-5 relative">
         <input
@@ -56,9 +62,26 @@ const TodoList = () => {
       </form>
       <ul>
         {todos.map((todo) => (
-          <TodoItem key={todo.id} todo={todo} />
+          <TodoItem key={todo.id} todo={todo} onDelete={handleDelete} />
         ))}
       </ul>
+
+      {isModalOpen && (
+        <div 
+          className="modal-outside fixed inset-0 bg-black/60 flex items-center justify-center"
+          onClick={(e) => {
+            if (e.target.classList.contains("modal-outside")) {
+              setIsModalOpen(false);
+            }
+          }}
+        >
+          <div
+            className="modal bg-white p-6 rounded text-lg font-semibold text-center"
+          >
+            할 일이 추가되었습니다.
+          </div>
+        </div>
+      )}
     </div>
   );
 };
