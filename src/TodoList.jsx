@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TodoItem from "./TodoItem";
-
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
   const [inputText, setInputText] = useState("");
   const [error, setError] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
@@ -28,10 +28,26 @@ const TodoList = () => {
     setTodos((prev) => [...prev, { id: Date.now(), text: inputText }]);
     setInputText("");
     setError(false);
+    setIsModalOpen(true);
   };
 
+  useEffect(() => {
+    const handleClick = (e) => {
+      if (!e.target.closest(".modal")) {
+        setIsModalOpen(false);
+      }
+    };
+
+    if(isModalOpen) {
+      document.addEventListener("click", handleClick);
+    }
+    return () => {
+      document.removeEventListener("click", handleClick);
+    };
+  }, [isModalOpen]);
+
   return (
-    <div className="bg-gray-200 h-screen flex flex-col items-center">
+    <div className="bg-yellow-50 h-screen flex flex-col items-center">
       <h2 className="text-5xl font-bold my-10">To-Do List</h2>
       <form onSubmit={handleAdd} className="flex gap-2 mb-5 relative">
         <input
@@ -59,6 +75,16 @@ const TodoList = () => {
           <TodoItem key={todo.id} todo={todo} />
         ))}
       </ul>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
+          <div
+            className="modal bg-white p-6 rounded text-lg font-semibold text-center"
+          >
+            할 일이 추가되었습니다.
+          </div>
+        </div>
+      )}
     </div>
   );
 };
