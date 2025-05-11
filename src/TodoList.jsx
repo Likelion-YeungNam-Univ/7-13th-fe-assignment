@@ -33,6 +33,10 @@ const TodoList = () => {
 		setError(false);
 	};
 
+	const handleDelete = (id) => {
+		setTodos((prev) => prev.filter((todo) => todo.id !== id));
+	};
+
 	return (
 		<div className="bg-gray-200 h-screen flex flex-col items-center">
 			{isModalOpen && <Modal onClose={() => setIsModalOpen(false)} />}
@@ -60,7 +64,7 @@ const TodoList = () => {
 			</form>
 			<ul>
 				{todos.map((todo) => (
-					<TodoItem key={todo.id} todo={todo} />
+					<TodoItem key={todo.id} todo={todo} onDelete={handleDelete} />
 				))}
 			</ul>
 		</div>
