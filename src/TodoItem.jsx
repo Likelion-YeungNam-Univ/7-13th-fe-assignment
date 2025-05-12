@@ -7,7 +7,7 @@ const TodoItem = ({ todo, onDelete }) => {
       <button
         type="button"
         onClick={() => onDelete(todo.id)}
-        className="ml-60 text-sm px-2 py-1 bg-white rounded-xl cursor-pointer border-2"
+        className="ml-10 text-sm px-2 py-1 bg-white rounded-xl cursor-pointer border-2"
       >
         삭제
       </button>

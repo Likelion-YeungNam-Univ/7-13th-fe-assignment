@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import TodoItem from "./TodoItem";
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
   const [inputText, setInputText] = useState("");
   const [error, setError] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const modalBackground = useRef();
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
@@ -28,6 +30,8 @@ const TodoList = () => {
     setTodos((prev) => [...prev, { id: Date.now(), text: inputText }]);
     setInputText("");
     setError(false);
+
+    setIsModalOpen(true);
   };
 
   const handleDelete = (id) => {
@@ -51,12 +55,29 @@ const TodoList = () => {
             3글자 이상 입력해주세요.
           </p>
         )}
-        <button
-          type="submit"
-          className="px-4 py-2 bg-blue-100 border rounded-2xl hover:bg-blue-400 cursor-pointer"
-        >
-          추가
-        </button>
+        <div className="btn-wrapper">
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-100 border rounded-2xl hover:bg-blue-400 cursor-pointer"
+          >
+            추가
+          </button>
+        </div>
+        {isModalOpen && (
+          <div
+            className="fixed inset-0 backdrop-blur-sm flex justify-center items-center z-50"
+            ref={modalBackground}
+            onClick={(e) => {
+              if (e.target === modalBackground.current) {
+                setIsModalOpen(false);
+              }
+            }}
+          >
+            <div className="bg-white p-10 h-48 text-3xl font-bold rounded-xl flex items-center justify-center">
+              <p>할 일이 추가되었습니다.</p>
+            </div>
+          </div>
+        )}
       </form>
       <ul>
         {todos.map((todo) => (
